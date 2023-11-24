@@ -2,7 +2,7 @@ name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: 
     schedule: 
-      # Daily at 8:20 UTC
+      # run every 5 mins
       - cron: '*/5 * * * *'
 jobs:
   Explore-GitHub-Actions:
