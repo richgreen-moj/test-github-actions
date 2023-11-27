@@ -1,7 +1,8 @@
 name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: 
-    schedule: 
+on:
+  workflow_dispatch:
+  schedule: 
       # run at 9:30 daily
       - cron: '30 9 * * *'
 jobs:
