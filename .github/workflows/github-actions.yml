@@ -25,4 +25,6 @@ jobs:
       - name: List SPIKE issues in a repository
         run: |
           gh issue list -R ministryofjustice/modernisation-platform --search "SPIKE: in:title" --state open
+          echo ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
           
