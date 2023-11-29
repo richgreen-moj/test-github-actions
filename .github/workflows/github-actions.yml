@@ -5,6 +5,8 @@ on:
   schedule: 
       # run at 9:30 daily
       - cron: '30 9 * * *'
+env:
+    GH_TOKEN: ${{ github.token }}
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
