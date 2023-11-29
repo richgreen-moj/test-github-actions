@@ -21,4 +21,6 @@ jobs:
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
       - name: List SPIKE issues in a repository
-        run: gh issue list -R ministryofjustice/modernisation-platform --search "SPIKE: in:title" --state open
+        run: |
+          gh issue list -R ministryofjustice/modernisation-platform --search "SPIKE: in:title" --state open
+          
