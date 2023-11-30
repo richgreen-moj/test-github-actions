@@ -2,9 +2,9 @@ name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on:
   workflow_dispatch:
-  schedule: 
-      # run at 9:30 daily
-      - cron: '30 9 * * *'
+  # schedule: 
+  #     # run at 9:30 daily
+  #     - cron: '30 9 * * *'
 env:
     GH_TOKEN: ${{ github.token }}
 jobs:
@@ -26,7 +26,7 @@ jobs:
         run: |
           secret="test_token"
           threshold="15552000"
-          age="15552001"
+          age="15897600"
           open_issue=$(gh issue list --search "Rotate test_token Credential in:title" --state open)
           
           if [ $age -gt $threshold ] && [ -z "$open_issue" ]; then
