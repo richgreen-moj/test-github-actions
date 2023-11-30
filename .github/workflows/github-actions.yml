@@ -36,5 +36,5 @@ jobs:
 
             Consult [this documentation](https://user-guide.modernisation-platform.service.justice.gov.uk/runbooks/rotating-secrets.html#how-to-rotate-secrets) which describes the process for rotation."
             else 
-            echo "The $secret secret has not been identified for rotation (age: $((age / (24 * 60 * 60))) days)"
+            echo "The $secret secret has not been identified for rotation (age: $((age / (24 * 60 * 60))) days issue:$open_issue)"
           fi
