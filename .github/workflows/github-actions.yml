@@ -25,8 +25,16 @@ jobs:
       - name: Create Issue
         run: |
           secret="test_token"
-          gh issue create --title "Rotate $secret Credential" --label security --body "The [secrets-rotation-reminder workflow](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) has identified that the $secret credential requires rotation as it is close to or exceeding the threshold of 180 days. 
+          threshold="15552000"
+          age="15552001"
+          open_issue=$(gh issue list --search "Rotate test_token Credential in:title" --state open)
           
-          Consult [this documentation](https://user-guide.modernisation-platform.service.justice.gov.uk/runbooks/rotating-secrets.html#how-to-rotate-secrets) which describes the process for rotation."
+          if [ $age -gt $threshold ] && [ -z "$open_issue" ]; then
+            echo "$secret secret is older than 180 days (age: $((age / (24 * 60 * 60))) days)"
+            echo "Creating GitHub Issue to rotate $secret"
+            gh issue create --title "Rotate $secret Credential" --label security --body "The [secrets-rotation-reminder workflow](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) has identified that the $secret credential requires rotation as it is close to or exceeding the threshold of 180 days. 
 
-          
+            Consult [this documentation](https://user-guide.modernisation-platform.service.justice.gov.uk/runbooks/rotating-secrets.html#how-to-rotate-secrets) which describes the process for rotation."
+            else 
+            echo "The $secret secret has not been identified for rotation (age: $((age / (24 * 60 * 60))) days)"
+          fi
