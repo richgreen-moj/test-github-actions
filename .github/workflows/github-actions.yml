@@ -22,9 +22,11 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
-      - name: List SPIKE issues in a repository
+      - name: Create Issue
         run: |
-          gh issue create --title "Rotate $secret Credential" --label security --body "The secrets-rotation-reminder workflow ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} has identified that the $secret credential requires rotation as it is close to or exceeding the threshold of 180 days. For more information see https://user-guide.modernisation-platform.service.justice.gov.uk/runbooks/rotating-secrets.html#how-to-rotate-secrets"
-
+          secret="test_token"
+          gh issue create --title "Rotate $secret Credential" --label security --body "The [secrets-rotation-reminder workflow](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) has identified that the $secret credential requires rotation as it is close to or exceeding the threshold of 180 days. 
+          
+          Consult [this documentation](https://user-guide.modernisation-platform.service.justice.gov.uk/runbooks/rotating-secrets.html#how-to-rotate-secrets) which describes the process for rotation."
 
           
