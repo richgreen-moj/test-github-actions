@@ -10,6 +10,7 @@ env:
 permissions:
   contents: read
   issues: write
+  repository-projects: write
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
