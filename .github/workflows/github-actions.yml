@@ -7,10 +7,10 @@ on:
   #     - cron: '30 9 * * *'
 env:
     GH_TOKEN: ${{ github.token }}
-permissions:
-  contents: read
-  issues: write
-  repository-projects: write
+permissions: write-all
+  # contents: read
+  # issues: write
+  # repository-projects: write
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
