@@ -29,7 +29,7 @@ jobs:
       # - run: echo "🍏 This job's status is ${{ job.status }}."
       - name: Create Issue
         run: |  
-          scripts/test.sh
+          ./scripts/test.sh
           if [ -f error.txt ]; then
             cat error.txt
             gh pr comment ${{ github.event.number }} --body $(cat error.txt)
