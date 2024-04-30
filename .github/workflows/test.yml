@@ -3,6 +3,8 @@ run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on:
   push:
   pull_request:
+    branches:
+      - test
   workflow_dispatch:
   # schedule: 
   #     # run at 9:30 daily
