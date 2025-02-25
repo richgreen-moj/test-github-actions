@@ -12,7 +12,7 @@ on:
           - import
           - remove
       application:
-        description: "Application name (e.g., equip)"
+        description: "Application name (e.g. apex)"
         required: true
         type: string
       workspace:
@@ -29,11 +29,11 @@ on:
         required: false
         type: string
       resource_addresses:
-        description: "Resource addresses (comma-separated, required for import/remove operations)"
+        description: "Resource addresses \n(comma-separated, required for import/remove operations)"
         required: false
         type: string
       resource_ids:
-        description: "Resource IDs for import (comma-separated, must match resource_addresses order)"
+        description: "Resource IDs for import \n(comma-separated, must match resource_addresses order)"
         required: false
         type: string
 
@@ -48,7 +48,6 @@ permissions:
 jobs:
   request_operation:
     runs-on: ubuntu-latest
-    environment: ${{ github.event.inputs.workspace }}
     outputs:
       operation_summary: ${{ steps.create_summary.outputs.summary }}
     steps:
