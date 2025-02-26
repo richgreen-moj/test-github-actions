@@ -29,16 +29,21 @@ on:
         required: false
         type: string
       resource_addresses:
-        description: "Resource addresses \n(comma-separated, required for import/remove operations)"
+        description: "Resource addresses (comma-separated, required for import/remove operations)"
         required: false
         type: string
       resource_ids:
-        description: "Resource IDs for import \n(comma-separated, must match resource_addresses order)"
+        description: "Resource IDs for import (comma-separated, must match resource_addresses order)"
         required: false
         type: string
+      component:
+        type: string
+        required: false
+        default: "root"
+        description: "Optional: subfolder in 'terraform/environments/<application>' if present."
 
 # env:
-  # ENVIRONMENT_MANAGEMENT: "${{ secrets.modernisation_platform_environments }}"
+#   ENVIRONMENT_MANAGEMENT: "${{ secrets.modernisation_platform_environments }}"
 
 permissions:
   id-token: write
@@ -139,7 +144,7 @@ jobs:
       - name: Display Operation Details
         run: |
           echo -e "${{ needs.request_operation.outputs.operation_summary }}" >> $GITHUB_STEP_SUMMARY
-          
+
           # Also output to console for logs
           echo -e "${{ needs.request_operation.outputs.operation_summary }}"
 
@@ -174,7 +179,7 @@ jobs:
 
       # - name: Perform Unlock Operation
       #   if: github.event.inputs.operation == 'unlock'
-      #   working-directory: terraform/environments/${{ github.event.inputs.application }}
+      #   working-directory: "${{ inputs.component != 'root' && format('terraform/environments/{0}/{1}', inputs.application, inputs.component) || format('terraform/environments/{0}', inputs.application) }}"
       #   run: terraform force-unlock -force ${{ github.event.inputs.lock_id }}
 
       # - name: Write Resource Addresses to File
@@ -194,7 +199,7 @@ jobs:
       #   if: github.event.inputs.operation == 'import'
       #   run: |
       #     scripts/terraform-import.sh \
-      #       terraform/environments/${{ github.event.inputs.application }} \
+      #       "${{ inputs.component != 'root' && format('terraform/environments/{0}/{1}', inputs.application, inputs.component) || format('terraform/environments/{0}', inputs.application) }}" \
       #       temp/resource_addresses.txt \
       #       temp/resource_ids.txt
 
@@ -202,5 +207,5 @@ jobs:
       #   if: github.event.inputs.operation == 'remove'
       #   run: |
       #     scripts/terraform-remove.sh \
-      #       terraform/environments/${{ github.event.inputs.application }} \
+      #       "${{ inputs.component != 'root' && format('terraform/environments/{0}/{1}', inputs.application, inputs.component) || format('terraform/environments/{0}', inputs.application) }}" \
       #       temp/resource_addresses.txt
