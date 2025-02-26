@@ -40,7 +40,7 @@ on:
         type: string
         required: false
         default: "root"
-        description: "Optional: subfolder in 'terraform/environments/<application>' if present."
+        description: "Component (Optional: subfolder in 'terraform/environments/<application>' if present)"
 
 # env:
 #   ENVIRONMENT_MANAGEMENT: "${{ secrets.modernisation_platform_environments }}"
