@@ -37,7 +37,7 @@ on:
         required: false
         type: string
 
-env:
+# env:
   # ENVIRONMENT_MANAGEMENT: "${{ secrets.modernisation_platform_environments }}"
 
 permissions:
