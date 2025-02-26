@@ -172,56 +172,56 @@ jobs:
         with:
           terraform_version: "~1"
 
-      - name: Get AWS Account Number
-        run: |
-          ACCOUNT_NUMBER=$(jq -r -e --arg account_name "${{ github.event.inputs.application }}-${{ github.event.inputs.workspace }}" '.account_ids[$account_name]' <<< $ENVIRONMENT_MANAGEMENT)
-          echo "::add-mask::$ACCOUNT_NUMBER"
-          echo "ACCOUNT_NUMBER=${ACCOUNT_NUMBER}" >> $GITHUB_ENV
+      # - name: Get AWS Account Number
+      #   run: |
+      #     ACCOUNT_NUMBER=$(jq -r -e --arg account_name "${{ github.event.inputs.application }}-${{ github.event.inputs.workspace }}" '.account_ids[$account_name]' <<< $ENVIRONMENT_MANAGEMENT)
+      #     echo "::add-mask::$ACCOUNT_NUMBER"
+      #     echo "ACCOUNT_NUMBER=${ACCOUNT_NUMBER}" >> $GITHUB_ENV
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@4fc4975a852c8cd99761e2de1f4ba73402e44dd9 # v4.0.3
-        with:
-          role-to-assume: "arn:aws:iam::${{ env.ACCOUNT_NUMBER }}:role/github-actions"
-          role-session-name: githubactionsrolesession
-          aws-region: "eu-west-2"
+      # - name: Configure AWS Credentials
+      #   uses: aws-actions/configure-aws-credentials@4fc4975a852c8cd99761e2de1f4ba73402e44dd9 # v4.0.3
+      #   with:
+      #     role-to-assume: "arn:aws:iam::${{ env.ACCOUNT_NUMBER }}:role/github-actions"
+      #     role-session-name: githubactionsrolesession
+      #     aws-region: "eu-west-2"
 
-      - name: Terraform Init
-        working-directory: "${{ inputs.component != 'root' && format('terraform/environments/{0}/{1}', inputs.application, inputs.component) || format('terraform/environments/{0}', inputs.application) }}"
-        run: terraform init
+      # - name: Terraform Init
+      #   working-directory: "${{ inputs.component != 'root' && format('terraform/environments/{0}/{1}', inputs.application, inputs.component) || format('terraform/environments/{0}', inputs.application) }}"
+      #   run: terraform init
 
-      - name: Select Workspace
-        working-directory: "${{ inputs.component != 'root' && format('terraform/environments/{0}/{1}', inputs.application, inputs.component) || format('terraform/environments/{0}', inputs.application) }}"
-        run: terraform workspace select ${{ github.event.inputs.application }}-${{ github.event.inputs.workspace }}
+      # - name: Select Workspace
+      #   working-directory: "${{ inputs.component != 'root' && format('terraform/environments/{0}/{1}', inputs.application, inputs.component) || format('terraform/environments/{0}', inputs.application) }}"
+      #   run: terraform workspace select ${{ github.event.inputs.application }}-${{ github.event.inputs.workspace }}
 
-      - name: Perform Unlock Operation
-        if: github.event.inputs.operation == 'unlock'
-        working-directory: "${{ inputs.component != 'root' && format('terraform/environments/{0}/{1}', inputs.application, inputs.component) || format('terraform/environments/{0}', inputs.application) }}"
-        run: terraform force-unlock -force ${{ github.event.inputs.lock_id }}
+      # - name: Perform Unlock Operation
+      #   if: github.event.inputs.operation == 'unlock'
+      #   working-directory: "${{ inputs.component != 'root' && format('terraform/environments/{0}/{1}', inputs.application, inputs.component) || format('terraform/environments/{0}', inputs.application) }}"
+      #   run: terraform force-unlock -force ${{ github.event.inputs.lock_id }}
 
-      - name: Write Resource Addresses to File
-        if: github.event.inputs.operation != 'unlock'
-        run: |
-          mkdir -p temp
-          # Convert comma-separated values to newlines
-          echo "${{ github.event.inputs.resource_addresses }}" | tr ',' '\n' > temp/resource_addresses.txt
+      # - name: Write Resource Addresses to File
+      #   if: github.event.inputs.operation != 'unlock'
+      #   run: |
+      #     mkdir -p temp
+      #     # Convert comma-separated values to newlines
+      #     echo "${{ github.event.inputs.resource_addresses }}" | tr ',' '\n' > temp/resource_addresses.txt
 
-      - name: Write Resource IDs to File
-        if: github.event.inputs.operation == 'import'
-        run: |
-          # Convert comma-separated values to newlines
-          echo "${{ github.event.inputs.resource_ids }}" | tr ',' '\n' > temp/resource_ids.txt
+      # - name: Write Resource IDs to File
+      #   if: github.event.inputs.operation == 'import'
+      #   run: |
+      #     # Convert comma-separated values to newlines
+      #     echo "${{ github.event.inputs.resource_ids }}" | tr ',' '\n' > temp/resource_ids.txt
 
-      - name: Execute Import Script
-        if: github.event.inputs.operation == 'import'
-        run: |
-          scripts/terraform-import.sh \
-            "${{ inputs.component != 'root' && format('terraform/environments/{0}/{1}', inputs.application, inputs.component) || format('terraform/environments/{0}', inputs.application) }}" \
-            temp/resource_addresses.txt \
-            temp/resource_ids.txt
+      # - name: Execute Import Script
+      #   if: github.event.inputs.operation == 'import'
+      #   run: |
+      #     scripts/terraform-import.sh \
+      #       "${{ inputs.component != 'root' && format('terraform/environments/{0}/{1}', inputs.application, inputs.component) || format('terraform/environments/{0}', inputs.application) }}" \
+      #       temp/resource_addresses.txt \
+      #       temp/resource_ids.txt
 
-      - name: Execute Remove Script
-        if: github.event.inputs.operation == 'remove'
-        run: |
-          scripts/terraform-remove.sh \
-            "${{ inputs.component != 'root' && format('terraform/environments/{0}/{1}', inputs.application, inputs.component) || format('terraform/environments/{0}', inputs.application) }}" \
-            temp/resource_addresses.txt
+      # - name: Execute Remove Script
+      #   if: github.event.inputs.operation == 'remove'
+      #   run: |
+      #     scripts/terraform-remove.sh \
+      #       "${{ inputs.component != 'root' && format('terraform/environments/{0}/{1}', inputs.application, inputs.component) || format('terraform/environments/{0}', inputs.application) }}" \
+      #       temp/resource_addresses.txt
