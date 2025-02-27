@@ -1,4 +1,4 @@
-name: Terraform State Management
+name: "Terraform State Management ${{ github.event.inputs.application }}-${{ github.event.inputs.workspace }}"
 
 on:
   workflow_dispatch:
