@@ -36,3 +36,4 @@ jobs:
             cat error.txt
             gh pr comment ${{ github.event.number }} --body $(cat error.txt)
           fi
+          
