@@ -1,0 +1,15 @@
+*.zip
+*.tar.gz
+*.tgz
+*.7z
+*.rar
+*.exe
+*.dll
+*.so
+*.dylib
+*.log
+*.tmp
+*.bak
+*.swp
+.DS_Store
+Thumbs.db
